@@ -161,6 +161,16 @@ jobs:
         if: matrix.platform == 'android'
         run: chmod +x example/android/gradlew
 
+      - name: Restore/Save Compiler Cache
+        if: runner.os == 'Windows' && matrix.platform == 'android'
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.ccache
+          # Creates a unique key based on your OS and lockfiles to manage cache invalidation
+          key: ${{ runner.os }}-ccache-${{ hashFiles('**/yarn.lock', 'example/android/app/build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-
+
       - name: Build example
         env:
           # This evaluates to the path on Windows, but remains completely empty/ignored on Linux

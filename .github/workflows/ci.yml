@@ -162,6 +162,10 @@ jobs:
         run: chmod +x example/android/gradlew
 
       - name: Build example
+        env:
+          # This evaluates to the path on Windows, but remains completely empty/ignored on Linux
+          LOCALAPPDATA: ${{ runner.os == 'Windows' && format('{0}/.mock_appdata', github.workspace) || '' }}
+          CCACHE_DIR: ${{ github.workspace }}/.ccache
         if: ${{ !((runner.os == 'Linux' || runner.os == 'Windows') && matrix.platform == 'ios') }}
         run: |
           yarn turbo run build:${{ matrix.platform }} --cache-dir="${{ env.TURBO_CACHE_DIR }}/${{ matrix.platform }}"

@@ -17,11 +17,6 @@ on:
         - staging
         - production
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   merge_group:
     types:
       - checks_requested

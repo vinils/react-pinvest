@@ -162,6 +162,6 @@ jobs:
         run: chmod +x example/android/gradlew
 
       - name: Build example
-        if: ${{ !(runner.os == 'Linux' && matrix.platform == 'ios') }}
+        if: ${{ !((runner.os == 'Linux' || runner.os == 'Windows') && matrix.platform == 'ios') }}
         run: |
           yarn turbo run build:${{ matrix.platform }} --cache-dir="${{ env.TURBO_CACHE_DIR }}/${{ matrix.platform }}"

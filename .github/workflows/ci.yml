@@ -215,6 +215,34 @@ jobs:
           bundle exec pod repo update --verbose
           bundle exec pod install --project-directory=${{ env.PLATFORM }}
 
+      - name: Install JDK
+        if: env.PLATFORM == 'android' && env.turbo_cache_hit != 1
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Finalize Android SDK
+        if: env.PLATFORM == 'android' && env.turbo_cache_hit != 1
+        run: |
+          /bin/bash -c "yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null"
+
+
+      - name: Cache Gradle
+        if: env.PLATFORM == 'android' && env.turbo_cache_hit != 1
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('example/android/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        if: env.PLATFORM == 'android'
+        run: chmod +x example/android/gradlew
+
       - name: Build example
         run: |
           yarn turbo run build:${{ env.PLATFORM }} --cache-dir="${{ env.TURBO_CACHE_DIR }}/${{ env.PLATFORM }}"

@@ -17,6 +17,17 @@ on:
         - staging
         - production
   push:
+    paths-ignore:
+      - 'docs/**'
+      - '.gitignore'
+      - '*.md'
+      - 'LICENSE'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.gitignore'
+      - '*.md'
+      - 'LICENSE'
   merge_group:
     types:
       - checks_requested

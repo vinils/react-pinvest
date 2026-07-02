@@ -26,4 +26,14 @@ export default defineConfig([
   {
     ignores: ['node_modules/', 'lib/'],
   },
+  {
+    rules: {
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
+    },
+  },
 ]);

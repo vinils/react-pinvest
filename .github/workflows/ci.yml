@@ -79,7 +79,7 @@ jobs:
       - name: Build package
         run: yarn prepare
 
-  build-ios:
+  build:
     name: ${{ matrix.os }}
     strategy:
       matrix:

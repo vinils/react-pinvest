@@ -144,13 +144,13 @@ jobs:
           fi
 
       - name: Use appropriate Xcode version
-        if: matrix.platform == 'ios' && env.turbo_cache_hit != '1'
+        if: runner.os == 'macOS' && env.turbo_cache_hit != '1'
         uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
       - name: Install cocoapods
-        if: matrix.platform == 'ios' && env.turbo_cache_hit != 1 && steps.cocoapods-cache.outputs.cache-hit != 'true'
+        if: runner.os == 'macOS' && env.turbo_cache_hit != 1 && steps.cocoapods-cache.outputs.cache-hit != 'true'
         run: |
           cd example
           bundle install
@@ -186,6 +186,7 @@ jobs:
         run: chmod +x example/android/gradlew
 
       - name: Build example
+        if: ${{ !(runner.os == 'Linux' && matrix.platform == 'ios') }}
         run: |
           yarn turbo run build:${{ matrix.platform }} --cache-dir="${{ env.TURBO_CACHE_DIR }}/${{ matrix.platform }}"
 

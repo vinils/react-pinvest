@@ -1,5 +1,8 @@
 name: CI
 on:
+  schedule:
+    # Runs every Monday at midnight UTC
+    - cron: '0 0 * * 1'
   push:
     branches:
       - main

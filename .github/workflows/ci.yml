@@ -116,6 +116,7 @@ jobs:
           if [[ $TURBO_CACHE_STATUS == "HIT" ]]; then
             echo "turbo_cache_hit=1" >> $GITHUB_ENV
           fi
+        shell: bash
 
       - name: Use appropriate Xcode version
         if: runner.os == 'macOS' && env.turbo_cache_hit != '1'

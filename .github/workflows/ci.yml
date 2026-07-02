@@ -163,6 +163,9 @@ jobs:
 
       - name: Build example
         env:
+          # This evaluates to the path on Windows, but remains completely empty/ignored on Linux
+          LOCALAPPDATA: ${{ runner.os == 'Windows' && format('{0}/.mock_appdata', github.workspace) || '' }}
+          CCACHE_DIR: ${{ github.workspace }}/.ccache
           CCACHE_DISABLE: 1
         if: ${{ !((runner.os == 'Linux' || runner.os == 'Windows') && matrix.platform == 'ios') }}
         run: |

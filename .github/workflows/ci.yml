@@ -50,6 +50,7 @@ jobs:
       TURBO_CACHE_DIR: .turbo
       RCT_USE_RN_DEP: 1
       RCT_USE_PREBUILT_RNCORE: 1
+      turbo_cache_hit: 0
 
     steps:
       - name: Checkout

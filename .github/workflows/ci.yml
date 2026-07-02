@@ -142,9 +142,8 @@ jobs:
       - name: Finalize Android SDK
         if: matrix.platform == 'android' && env.turbo_cache_hit != 1
         run: |
-          /bin/bash -c "yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null"
-        shell: bash
-
+          echo yes | "%ANDROID_HOME%\cmdline-tools\latest\bin\sdkmanager" --licenses
+        shell: cmd
 
       - name: Cache Gradle
         if: matrix.platform == 'android' && env.turbo_cache_hit != 1
